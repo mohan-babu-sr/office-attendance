@@ -1,0 +1,43 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .app-name {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #55afff;
+    }
+
+    .menu-items {
+        display: none;
+        margin: auto;
+        color: #3e6882;
+
+        @media (min-width: 768px) {
+            display: flex;
+        }
+    }
+
+    .dark-mode-toggle {
+        margin-left: 10px;
+    }
+}
+
+/* Responsive: Hamburger menu for small screens */
+@media (max-width: 767px) {
+    .menu-items {
+        display: none;
+    }
+}
+
+::ng-deep .mat-button {
+    background-color: #f0fdff;  /* Custom background color */
+    color: #78b3ce;                /* Custom text color */
+    border: none;               /* Remove border */
+  }
+  
+  ::ng-deep .mat-button:hover {
+    background-color: #f0fdff;  /* Custom background color on hover */
+    color: #3e6882;                /* Ensure text color stays white */
+  }

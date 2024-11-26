@@ -1,0 +1,42 @@
+<mat-dialog-content>
+  <h1>{{data.title}}</h1>
+  <form [formGroup]="form">
+    <div *ngFor="let field of data.formObject" class="form-field">
+      <mat-form-field appearance="fill" class="full-width">
+        <mat-label>{{ field.name }}</mat-label>
+
+        <!-- Handle String Type -->
+        <input matInput *ngIf="field.type === 'string'" [formControlName]="field.name" />
+
+        <!-- Handle Date Type -->
+        <ng-container *ngIf="field.type === 'date'">
+          <div class="date-field">
+            <input matInput [matDatepicker]="picker" [formControlName]="field.name">
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </div>
+        </ng-container>
+
+        <!-- Handle Select Type -->
+        <ng-container *ngIf="field.type === 'select'">
+            <mat-select [formControlName]="field.name">
+              <mat-option *ngFor="let option of field.options" [value]="option">
+                {{ option }}
+              </mat-option>
+            </mat-select>
+        </ng-container>
+
+        <!-- Validation Errors -->
+        <mat-error *ngIf="form.get(field.name)?.hasError('required')">
+          {{ field.name }} is required
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button color="primary" [disabled]="form.invalid" (click)="saveDetails()">
+    Save
+  </button>
+</mat-dialog-actions>

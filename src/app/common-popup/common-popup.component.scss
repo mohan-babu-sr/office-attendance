@@ -1,0 +1,10 @@
+.date-field {
+    display: flex;
+    align-items: center;
+    width: 100%; /* Adjust width as needed */
+  }
+  
+  .date-field input {
+    flex-grow: 1; /* Ensures the input takes up available space */
+  }
+  

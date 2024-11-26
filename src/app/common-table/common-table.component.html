@@ -1,0 +1,32 @@
+<div class="table-container">
+  <!-- Fixed Header -->
+  <table mat-table [dataSource]="dataSource" class="header-table mat-elevation-z8">
+    <ng-container *ngFor="let column of columns" [matColumnDef]="column.key">
+      <th mat-header-cell *matHeaderCellDef [style.width]="column.width"> {{ column.label }} </th>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  </table>
+
+  <!-- Scrollable Data Rows -->
+  <div class="data-rows-container">
+    <table mat-table [dataSource]="dataSource" class="data-table">
+      <ng-container *ngFor="let column of columns" [matColumnDef]="column.key">
+        <td mat-cell *matCellDef="let element; let i = index" [style.width]="column.width">
+          <ng-container *ngIf="column.isIndex; else fieldContent">
+            {{ i + 1 }}
+          </ng-container>
+          <ng-template #fieldContent>
+            <ng-container *ngIf="column.key === 'Action'; else valueContent">
+              <button mat-raised-button color="accent" (click)="editData(element)">Edit</button>
+              <button mat-raised-button color="warn" (click)="deleteData(element._id)">Delete</button>
+            </ng-container>
+            <ng-template #valueContent>
+              {{ element[column.key] }}
+            </ng-template>
+          </ng-template>
+        </td>
+      </ng-container>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+</div>

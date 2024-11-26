@@ -1,0 +1,22 @@
+<div class="dashboard-container">
+    <mat-card class="mat-card" appearance="outlined">
+        <mat-card-header>
+            <mat-card-title>{{currentMonth}}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <p>Total working days: {{workingDays}}</p>
+            <p>Total days in office: {{daysInOffice}}</p>
+            <p>Total days in WFH: {{daysInHome}}</p>
+            <p>Remaining days to office: {{remainingDaysOffice}}</p>
+            <p>Remaining days to WFH: {{remainingDaysHome}}</p>
+        </mat-card-content>
+        <mat-card-footer class="mat-card-footer">
+            <button mat-raised-button aria-label="Add" (click)="addDetails()" color="primary">
+                Add
+              </button>
+        </mat-card-footer>
+    </mat-card>
+
+    <app-common-table [dataSource]="listOfDays" (delete)="onDelete($event)" (edit)="onEdit($event)"></app-common-table>
+
+</div>

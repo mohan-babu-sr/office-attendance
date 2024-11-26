@@ -1,0 +1,22 @@
+<mat-toolbar color="primary" class="navbar">
+    <!-- Left Side: App Name -->
+    <div class="app-name">
+        <span>Check In/Out</span>
+    </div>
+
+    <!-- Middle: Menu Items -->
+    <div class="menu-items" fxLayout="row" fxLayoutGap="20px">
+        <a mat-button routerLink="/">Home</a>
+        <a mat-button routerLink="/">About</a>
+        <a mat-button routerLink="/">Contact</a>
+    </div>
+
+    <!-- Right Side: Dark Mode Toggle -->
+    <div class="dark-mode-toggle">
+        <mat-slide-toggle 
+            [checked]="isDarkMode" 
+            (change)="toggleTheme($event.checked)">
+            {{ isDarkMode ? 'Dark Mode' : 'Light Mode' }}
+        </mat-slide-toggle>
+    </div>
+</mat-toolbar>

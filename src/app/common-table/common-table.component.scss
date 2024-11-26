@@ -1,0 +1,47 @@
+.table-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.header-table {
+  width: 100%;
+  table-layout: fixed; /* Ensures consistent column widths */
+}
+
+
+.data-rows-container {
+  max-height: 315px; /* Adjust the height as needed */
+  overflow-y: auto; /* Enable scrolling */
+  scrollbar-width: none; /* For Firefox: Hides the scrollbar */
+  -ms-overflow-style: none; /* For Internet Explorer and Edge */
+}
+
+.data-rows-container::-webkit-scrollbar {
+  display: none; /* For Chrome, Safari, and Opera: Hides the scrollbar */
+}
+
+
+.data-table {
+  width: 100%;
+  table-layout: fixed; /* Ensures consistent column widths */
+}
+
+th, td {
+  padding: 8px;
+  text-align: left;
+}
+
+mat-header-cell {
+  position: sticky;
+  top: 0;
+  background: #f1f1f1;
+  z-index: 1;
+}
+
+mat-row:hover {
+  background: #f9f9f9;
+}
+
+button {
+  margin-right: 10px;
+}
