@@ -119,7 +119,7 @@
             "production": {
               "browserTarget": "orion-attendence:build:production"
             },
-            "development": {
+            "qa": {
               "browserTarget": "orion-attendence:build:qa"
             },
             "development": {
