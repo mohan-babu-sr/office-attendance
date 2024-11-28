@@ -13,7 +13,13 @@ export class DbCallService {
   constructor(private http: HttpClient) { }
 
   getData(data: any): Observable<any> {
-    const url = `${this.apiUrl}getData?MonthYear=${data.monthYear}&Place=${data.place}&sortBy=${data.sortBy}`;
+    let url = `${this.apiUrl}getData?MonthYear=${data.monthYear}&Place=${data.place}`;
+    if(data.isFilter) {
+      url += `&Date=${data.Date}`;
+    }
+    if(data.sortBy) {
+      url += `&sortBy=${data.sortBy}`;
+    }
     return this.http.get(url);
   }
 

@@ -58,7 +58,6 @@ export class DashboardComponent implements OnInit {
           };
         });
       }
-    console.log(this.listOfDays[0]?.Place.name);
     });
   }
 
@@ -88,7 +87,6 @@ export class DashboardComponent implements OnInit {
   }
 
   getTotalDaysInOffice() {
-    console.log(this.catelogs['places']);
     let data = { monthYear: this.currentMonthYear, place: '674583e7359d3714ad404d02' };
     this.dbCallService.getData(data).subscribe((response) => {
       this.daysInOffice = response.length;
@@ -105,7 +103,6 @@ export class DashboardComponent implements OnInit {
   }
 
   addDetails() {
-    console.log(this.catelogs['Places']?.value);
     const dialogRef = this.dialog.open(CommonPopupComponent, {
       data: {
         title: 'Add Details',
@@ -131,8 +128,6 @@ export class DashboardComponent implements OnInit {
   // Handle delete action
   onDelete(data: any): void {
     const dialogRef = this.dialog.open(CommonWarningComponent, {
-      // height: '400px',
-      // width: '600px',
       data: {
         title: 'Delete Confirmation!',
         message: 'Are you sure you want to delete this record?',
@@ -145,7 +140,6 @@ export class DashboardComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
       if (result) {
         this.dbCallService.deleteData(data?._id).subscribe((data) => {
           this.ngOnInit(); // Refresh logic after deleting data

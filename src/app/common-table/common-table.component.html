@@ -18,12 +18,12 @@
           <ng-template #fieldContent>
             <ng-container *ngIf="column.key === 'Action'; else valueContent">
               <button mat-button class="custom-accents" (click)="editData(element)">
-                <mat-icon aria-hidden="false" aria-label="edit icon" fontIcon="edit_square"></mat-icon>
-                Edit
+                <mat-icon fontIcon="edit_square"></mat-icon>
+                <span *ngIf="!isMobileView">Edit</span>
               </button>
               <button mat-button class="custom-warn" (click)="deleteData(element)">
-                <mat-icon aria-hidden="false" aria-label="delete icon" fontIcon="delete"></mat-icon>
-                Delete
+                <mat-icon fontIcon="delete"></mat-icon>
+                <span *ngIf="!isMobileView">Delete</span>
               </button>
             </ng-container>
             <ng-template #valueContent>

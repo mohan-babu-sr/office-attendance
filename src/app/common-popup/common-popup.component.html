@@ -1,6 +1,6 @@
 <mat-dialog-content>
   <h1>{{ data?.title }}</h1>
-  <form [formGroup]="form">
+  <form [formGroup]="form" (change)="onFormChange()">
     <div *ngFor="let field of data.formObject">
       <mat-form-field appearance="outline" [ngStyle]="{'width': data?.width || 'auto', 'padding-top': '10px'}">
         <mat-label>{{ field.name }}</mat-label>

@@ -2,6 +2,7 @@ import { Component, OnInit, Inject, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import * as moment from 'moment';
+import { DbCallService } from '../core/db-call.service';
 
 @Component({
   selector: 'app-common-popup',
@@ -10,11 +11,13 @@ import * as moment from 'moment';
 })
 export class CommonPopupComponent implements OnInit {
   form: FormGroup;
+  haveDuplicates: boolean = false;
 
   constructor(
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<CommonPopupComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private dbCallService: DbCallService
   ) {
     this.form = this.fb.group({});
   }
@@ -24,20 +27,29 @@ export class CommonPopupComponent implements OnInit {
     this.data.formObject.forEach((field: any) => {
       let initialValue = field.name === 'Date' ? new Date() : '';
 
-      // if (field.type === 'select') {
-      //   initialValue = field.options[0]; // Default to the first option, or set another default if needed
-      // }
-
       const control = this.fb.control(
         initialValue,
         field.required ? Validators.required : [], // Add validators if required
       );
       this.form.addControl(field.name, control);
     });
-    console.log(this.form);
+
+    this.form.valueChanges.subscribe(value => {
+      
+      // value.MonthYear = this.getCurrentMonthYear(value.Date);
+      // value.isFilter = true;
+      // value.Date = moment(new Date(value.Date)).utc().format('YYYY-MM-DDTHH:mm:ss[Z]');
+      // console.log(value);
+      // this.dbCallService.getData(value).subscribe((data) => {
+      //   if (data.length > 0) { this.haveDuplicates = true; }
+      // })
+    })
+
   }
 
+
   onNoClick(): void {
+    this.form.reset();
     this.dialogRef.close(); // Close the dialog without saving
   }
 
@@ -49,13 +61,17 @@ export class CommonPopupComponent implements OnInit {
         formObj.Date = moment(new Date(formObj.Date)).utc().format('YYYY-MM-DDTHH:mm:ss[Z]');
       }
       this.dialogRef.close(formObj); // Pass form data back to the parent component
-    } else {
-      console.error('Form is invalid:', this.form.errors);
     }
   }
 
   getCurrentMonthYear(date: Date) {
     const currentMonthYear: string = date.toLocaleString('default', { year: 'numeric', month: 'long' });
     return currentMonthYear.replace(' ', '').toLocaleLowerCase();
+  }
+
+  onFormChange() {
+    if (this.form) {
+      console.log(this.form);
+    }
   }
 }
