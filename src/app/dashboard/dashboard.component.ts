@@ -105,12 +105,12 @@ export class DashboardComponent implements OnInit {
   }
 
   addDetails() {
-    console.log(this.catelogs['places']?.value);
+    console.log(this.catelogs['Places']?.value);
     const dialogRef = this.dialog.open(CommonPopupComponent, {
       data: {
         title: 'Add Details',
         formObject: [
-          { name: 'Place', type: 'select', required: true, options: this.catelogs['places']?.value },
+          { name: 'Place', type: 'select', required: true, options: this.catelogs['Places']?.value },
           { name: 'Date', type: 'date', required: true },
         ],
         width: '250px'
