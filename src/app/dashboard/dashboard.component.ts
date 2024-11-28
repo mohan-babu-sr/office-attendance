@@ -113,10 +113,10 @@ export class DashboardComponent implements OnInit {
           { name: 'Place', type: 'select', required: true, options: this.catelogs['places']?.value },
           { name: 'Date', type: 'date', required: true },
         ],
-        width: '300px'
+        width: '250px'
       },
       height: 'auto',
-      width: '30%',
+      // width: '30%',
     });
 
     dialogRef.afterClosed().subscribe((result) => {
