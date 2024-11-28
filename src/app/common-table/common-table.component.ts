@@ -14,7 +14,7 @@ export class CommonTableComponent {
   columns = [
     { key: 'S.No', label: 'S.No', isIndex: true, width: '15%' }, // Width set to 10%
     { key: 'Date', label: 'Date', width: '45%' },               // Width set to 30%
-    { key: 'Place.name', label: 'Place', width: '20%' },             // Width set to 30%
+    { key: 'Place', label: 'Place', width: '20%' },             // Width set to 30%
     { key: 'Action', label: 'Action', width: '20%' },           // Width set to 30%
   ];
   

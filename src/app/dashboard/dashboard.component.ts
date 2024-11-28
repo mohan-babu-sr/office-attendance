@@ -37,12 +37,11 @@ export class DashboardComponent implements OnInit {
     const currentYear = currentDate.getFullYear();    // getFullYear() returns the full year (e.g., 2024)
 
     this.getCurrentMonth();
-    this.getCatelogs(this.catelogList);
-    this.getTotalWorkingDays(currentMonth, currentYear);
-    if(this.catelogs){
+    this.getCatelogs(this.catelogList).then(() => {
       this.getTotalDaysInOffice();
       this.getTotalDaysInHome();
-    }
+    });
+    this.getTotalWorkingDays(currentMonth, currentYear);
     this.getListOfDays(this.listParams);
   }
 
@@ -59,6 +58,7 @@ export class DashboardComponent implements OnInit {
           };
         });
       }
+    console.log(this.listOfDays[0]?.Place.name);
     });
   }
 
@@ -88,8 +88,8 @@ export class DashboardComponent implements OnInit {
   }
 
   getTotalDaysInOffice() {
-    console.log( this.catelogs['places']);
-    let data = { monthYear: this.currentMonthYear, place: this.catelogs ? this.catelogs.places : null };
+    console.log(this.catelogs['places']);
+    let data = { monthYear: this.currentMonthYear, place: '674583e7359d3714ad404d02' };
     this.dbCallService.getData(data).subscribe((response) => {
       this.daysInOffice = response.length;
       this.remainingDaysOffice = 12 - this.daysInOffice;
@@ -97,7 +97,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getTotalDaysInHome() {
-    let data = { monthYear: this.currentMonthYear, place: this.catelogs['places'][0]._id };
+    let data = { monthYear: this.currentMonthYear, place: '674583e7359d3714ad404d03' };
     this.dbCallService.getData(data).subscribe((response) => {
       this.daysInHome = response.length;
       this.remainingDaysHome = this.workingDays - this.daysInHome - 12;
@@ -105,11 +105,12 @@ export class DashboardComponent implements OnInit {
   }
 
   addDetails() {
+    console.log(this.catelogs['places']?.value);
     const dialogRef = this.dialog.open(CommonPopupComponent, {
       data: {
         title: 'Add Details',
         formObject: [
-          { name: 'Place', type: 'select', required: true, options: this.catelogs['places'] },
+          { name: 'Place', type: 'select', required: true, options: this.catelogs['places']?.value },
           { name: 'Date', type: 'date', required: true },
         ],
         width: '300px'
@@ -157,13 +158,15 @@ export class DashboardComponent implements OnInit {
     console.log("on edit");
   }
 
-  async getCatelogs(catelogList: any) {
-    // TODO: Implement logic to fetch catelogs from the API
-    catelogList.forEach((catelogItem: string) => {
-      this.dbCallService.getCatelogs(catelogItem).subscribe((response) => {
-        this.catelogs[catelogItem] = response;
-      });
-    })
-    console.log( this.catelogs);
+  async getCatelogs(catelogList: any): Promise<void> {
+    const promises = catelogList.map((catelogItem: string) =>
+      this.dbCallService.getCatelogs(catelogItem).toPromise()
+    );
+
+    const results = await Promise.all(promises);
+    catelogList.forEach((catelogItem: string, index: number) => {
+      this.catelogs[catelogItem] = { key: catelogItem, value: results[index] };
+    });
   }
+
 }

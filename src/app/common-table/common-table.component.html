@@ -19,7 +19,7 @@
             <ng-container *ngIf="column.key === 'Action'; else valueContent">
               <button mat-button class="custom-accents" (click)="editData(element)">
                 <mat-icon aria-hidden="false" aria-label="edit icon" fontIcon="edit_square"></mat-icon>
-                  Edit
+                Edit
               </button>
               <button mat-button class="custom-warn" (click)="deleteData(element)">
                 <mat-icon aria-hidden="false" aria-label="delete icon" fontIcon="delete"></mat-icon>
@@ -27,7 +27,12 @@
               </button>
             </ng-container>
             <ng-template #valueContent>
-              {{ element[column.key] ? element[column.key] : '-' }}
+              <ng-container *ngIf="column.key === 'Place'; else defaultContent">
+                {{ element[column.key]?.name ? element[column.key].name : '-' }}
+              </ng-container>
+              <ng-template #defaultContent>
+                {{ element[column.key] ? element[column.key] : '-' }}
+              </ng-template>
             </ng-template>
           </ng-template>
         </td>
