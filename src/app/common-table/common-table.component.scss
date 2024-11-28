@@ -1,6 +1,9 @@
 .table-container {
   display: flex;
   flex-direction: column;
+  margin: auto;
+  max-width: 1200px;
+
 }
 
 .header-table {
@@ -44,4 +47,22 @@ mat-row:hover {
 
 button {
   margin-right: 10px;
+}
+
+.custom-accents {
+  color: var(--button-accent-color) !important;
+  font-weight: 600;
+}
+
+.custom-warn {
+  color: var(--button-warn-color) !important;
+  font-weight: 600;
+}
+
+button:hover.custom-accents {
+  background-color: var(--button-hover-accent-color) !important;
+}
+
+button:hover.custom-warn {
+  background-color: var(--button-warn-hover-color) !important;
 }

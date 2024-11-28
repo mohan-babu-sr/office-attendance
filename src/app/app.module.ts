@@ -16,7 +16,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { ErrorHandler } from '@angular/core';
 import { ErrorComponent } from './error/error.component';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule, MatDialogActions } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
@@ -29,6 +29,7 @@ import { HttpErrorInterceptor } from './core/http-error.interceptor';
 import { CommonPopupComponent } from './common-popup/common-popup.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonTableComponent } from './common-table/common-table.component';
+import { CommonWarningComponent } from './common-warning/common-warning.component';
 
 export const MY_DATE_FORMATS = {
   parse: {
@@ -50,6 +51,7 @@ export const MY_DATE_FORMATS = {
     ErrorComponent,
     CommonPopupComponent,
     CommonTableComponent,
+    CommonWarningComponent,
   ],
   imports: [
     BrowserModule,

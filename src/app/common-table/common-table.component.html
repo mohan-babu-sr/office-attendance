@@ -17,11 +17,17 @@
           </ng-container>
           <ng-template #fieldContent>
             <ng-container *ngIf="column.key === 'Action'; else valueContent">
-              <button mat-raised-button color="accent" (click)="editData(element)">Edit</button>
-              <button mat-raised-button color="warn" (click)="deleteData(element._id)">Delete</button>
+              <button mat-button class="custom-accents" (click)="editData(element)">
+                <mat-icon aria-hidden="false" aria-label="edit icon" fontIcon="edit_square"></mat-icon>
+                  Edit
+              </button>
+              <button mat-button class="custom-warn" (click)="deleteData(element)">
+                <mat-icon aria-hidden="false" aria-label="delete icon" fontIcon="delete"></mat-icon>
+                Delete
+              </button>
             </ng-container>
             <ng-template #valueContent>
-              {{ element[column.key] }}
+              {{ element[column.key] ? element[column.key] : '-' }}
             </ng-template>
           </ng-template>
         </td>

@@ -12,9 +12,9 @@ export class CommonTableComponent {
   @Output() edit = new EventEmitter<any>();
 
   columns = [
-    { key: 'S.No', label: 'S.No', isIndex: true, width: '10%' }, // Width set to 10%
-    { key: 'Date', label: 'Date', width: '50%' },               // Width set to 30%
-    { key: 'Place', label: 'Place', width: '20%' },             // Width set to 30%
+    { key: 'S.No', label: 'S.No', isIndex: true, width: '15%' }, // Width set to 10%
+    { key: 'Date', label: 'Date', width: '45%' },               // Width set to 30%
+    { key: 'Place.name', label: 'Place', width: '20%' },             // Width set to 30%
     { key: 'Action', label: 'Action', width: '20%' },           // Width set to 30%
   ];
   
@@ -27,8 +27,8 @@ export class CommonTableComponent {
     this.edit.emit(element);
   }
 
-  deleteData(id: string): void {
-    this.delete.emit(id);
+  deleteData(data: string): void {
+    this.delete.emit(data);
   }
 
 }

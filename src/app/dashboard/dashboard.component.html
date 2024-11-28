@@ -1,8 +1,9 @@
 <div class="dashboard-container">
     <mat-card class="mat-card" appearance="outlined">
         <mat-card-header>
-            <mat-card-title>{{currentMonth}}</mat-card-title>
+            <mat-card-title>{{currentMonth}}</mat-card-title>    
         </mat-card-header>
+        <mat-divider style="width: 95%;margin: auto;"></mat-divider>
         <mat-card-content>
             <p>Total working days: {{workingDays}}</p>
             <p>Total days in office: {{daysInOffice}}</p>
@@ -10,8 +11,10 @@
             <p>Remaining days to office: {{remainingDaysOffice}}</p>
             <p>Remaining days to WFH: {{remainingDaysHome}}</p>
         </mat-card-content>
+        
         <mat-card-footer class="mat-card-footer">
-            <button mat-raised-button aria-label="Add" (click)="addDetails()" color="primary">
+            <button mat-button class="custom-accents" aria-label="Add" (click)="addDetails()" >
+                <mat-icon aria-hidden="false" aria-label="add_notes icon" fontIcon="post_add"></mat-icon>
                 Add
               </button>
         </mat-card-footer>

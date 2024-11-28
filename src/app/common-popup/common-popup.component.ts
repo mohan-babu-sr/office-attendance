@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-common-popup',
@@ -23,9 +24,9 @@ export class CommonPopupComponent implements OnInit {
     this.data.formObject.forEach((field: any) => {
       let initialValue = field.name === 'Date' ? new Date() : '';
 
-      if (field.type === 'select') {
-        initialValue = field.options[0]; // Default to the first option, or set another default if needed
-      }
+      // if (field.type === 'select') {
+      //   initialValue = field.options[0]; // Default to the first option, or set another default if needed
+      // }
 
       const control = this.fb.control(
         initialValue,
@@ -45,7 +46,7 @@ export class CommonPopupComponent implements OnInit {
       let formObj = this.form.value;
       if (formObj.Date) {
         formObj.MonthYear = this.getCurrentMonthYear(formObj.Date);
-        formObj.Date = new Date(formObj.Date);
+        formObj.Date = moment(new Date(formObj.Date)).utc().format('YYYY-MM-DDTHH:mm:ss[Z]');
       }
       this.dialogRef.close(formObj); // Pass form data back to the parent component
     } else {

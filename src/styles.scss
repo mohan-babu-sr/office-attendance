@@ -18,6 +18,12 @@ $orion-attendence-theme: mat.define-light-theme((color: (primary: $orion-attende
 
 @include mat.all-component-themes($orion-attendence-theme);
 
+
+.mat-dialog-container {
+  background-color: var(--background-color) !important;
+  color: var(--text-color) !important;
+}
+
 html,
 body {
   height: 100%;
@@ -30,14 +36,26 @@ body {
 }
 
 :root {
-  --background-color: #f0fdff;
+  --background-color: #D1E2E8;
   --text-color: #000000;
+  --button-hover-accent-color: #D1E2E8;
+  --button-accent-color: #64B5F6 ;
+  --button-warn-color: #FF5722;
+  --button-warn-hover-color: #fbeae8;
+  --button-primary-color: #78B3CE;
+  mat-card,
+  td,
+  th {
+    background-color: #E6F2F5 !important;
+    color: var(--text-color) !important;
+  }
 }
 
 .dark-theme {
   --background-color: #1a2125;
   --text-color: #ffffffd2;
-
+  --button-hover-accent-color: #1a2125;
+  --button-warn-hover-color: #4a2321;
   mat-card,
   td,
   th {
@@ -50,7 +68,10 @@ body {
   background: var(--background-color) !important;
 }
 
-
+.custom-accents {
+  color: var(--button-accent-color) !important;
+  font-weight: 600;
+}
 
 mat-divider {
   background-color: rgba(0, 0, 0, 0.12);

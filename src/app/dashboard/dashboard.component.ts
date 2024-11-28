@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DbCallService } from '../core/db-call.service';
 import { CommonPopupComponent } from '../common-popup/common-popup.component';
 import * as moment from 'moment';
+import { CommonWarningComponent } from '../common-warning/common-warning.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -19,10 +20,13 @@ export class DashboardComponent implements OnInit {
   listParams = {
     'limit': 15,
     'offset': 0,
-    'place': null
+    'place': null,
+    'sortBy': 'Date:desc'
   }
   currentMonthYear = '';
   listOfDays: any;
+  catelogList = ['places'];
+  catelogs: any = {};
 
 
   constructor(private dialog: MatDialog, private dbCallService: DbCallService) { }
@@ -33,22 +37,25 @@ export class DashboardComponent implements OnInit {
     const currentYear = currentDate.getFullYear();    // getFullYear() returns the full year (e.g., 2024)
 
     this.getCurrentMonth();
+    this.getCatelogs(this.catelogList);
     this.getTotalWorkingDays(currentMonth, currentYear);
-    this.getTotalDaysInOffice();
-    this.getTotalDaysInHome();
+    if(this.catelogs){
+      this.getTotalDaysInOffice();
+      this.getTotalDaysInHome();
+    }
     this.getListOfDays(this.listParams);
   }
 
   getListOfDays(listParams: any) {
     listParams.monthYear = this.currentMonthYear;
-    this.listParams = {...listParams};
-    
+    this.listParams = { ...listParams };
+
     this.dbCallService.getData(this.listParams).subscribe((response) => {
       if (response && Array.isArray(response)) {
         this.listOfDays = response.map((element: any) => {
           return {
             ...element,
-            Date: moment(element.Date).format('LLLL'), // Format the Date field
+            Date: moment(element.Date).format('D MMMM YYYY (dddd)'), // Format the Date field
           };
         });
       }
@@ -81,7 +88,8 @@ export class DashboardComponent implements OnInit {
   }
 
   getTotalDaysInOffice() {
-    let data = { monthYear: this.currentMonthYear, place: "Office" };
+    console.log( this.catelogs['places']);
+    let data = { monthYear: this.currentMonthYear, place: this.catelogs ? this.catelogs.places : null };
     this.dbCallService.getData(data).subscribe((response) => {
       this.daysInOffice = response.length;
       this.remainingDaysOffice = 12 - this.daysInOffice;
@@ -89,7 +97,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getTotalDaysInHome() {
-    let data = { monthYear: this.currentMonthYear, place: "Home" };
+    let data = { monthYear: this.currentMonthYear, place: this.catelogs['places'][0]._id };
     this.dbCallService.getData(data).subscribe((response) => {
       this.daysInHome = response.length;
       this.remainingDaysHome = this.workingDays - this.daysInHome - 12;
@@ -101,12 +109,15 @@ export class DashboardComponent implements OnInit {
       data: {
         title: 'Add Details',
         formObject: [
-          { name: 'Place', type: 'select', required: true, options: ['Office', 'Home'] },
+          { name: 'Place', type: 'select', required: true, options: this.catelogs['places'] },
           { name: 'Date', type: 'date', required: true },
         ],
+        width: '300px'
       },
+      height: 'auto',
+      width: '30%',
     });
-  
+
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.dbCallService.saveData(result).subscribe((data) => {
@@ -117,14 +128,42 @@ export class DashboardComponent implements OnInit {
   }
 
   // Handle delete action
-  onDelete(id: string): void {
-    this.dbCallService.deleteData(id).subscribe((data) => {
-      this.ngOnInit(); // Refresh logic after deleting data
+  onDelete(data: any): void {
+    const dialogRef = this.dialog.open(CommonWarningComponent, {
+      // height: '400px',
+      // width: '600px',
+      data: {
+        title: 'Delete Confirmation!',
+        message: 'Are you sure you want to delete this record?',
+        confirmButtonText: 'Delete',
+        cancelButtonText: 'Cancel',
+        color: 'warn',
+        Date: data?.Date
+      }
+
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+      if (result) {
+        this.dbCallService.deleteData(data?._id).subscribe((data) => {
+          this.ngOnInit(); // Refresh logic after deleting data
+        });
+      }
     });
   }
 
   onEdit(id: string) {
     console.log("on edit");
   }
-  
+
+  async getCatelogs(catelogList: any) {
+    // TODO: Implement logic to fetch catelogs from the API
+    catelogList.forEach((catelogItem: string) => {
+      this.dbCallService.getCatelogs(catelogItem).subscribe((response) => {
+        this.catelogs[catelogItem] = response;
+      });
+    })
+    console.log( this.catelogs);
+  }
 }

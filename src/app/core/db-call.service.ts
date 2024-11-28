@@ -13,7 +13,12 @@ export class DbCallService {
   constructor(private http: HttpClient) { }
 
   getData(data: any): Observable<any> {
-    const url = `${this.apiUrl}getData?MonthYear=${data.monthYear}&Place=${data.place}`;
+    const url = `${this.apiUrl}getData?MonthYear=${data.monthYear}&Place=${data.place}&sortBy=${data.sortBy}`;
+    return this.http.get(url);
+  }
+
+  getCatelogs(modelName: any): Observable<any> {
+    const url = `${this.apiUrl}getCatelogs?modelName=${modelName}`;
     return this.http.get(url);
   }
 

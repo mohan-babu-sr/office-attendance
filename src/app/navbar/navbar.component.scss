@@ -13,6 +13,7 @@
         display: none;
         margin: auto;
         color: #3e6882;
+        font-weight: 600;
 
         @media (min-width: 768px) {
             display: flex;
@@ -32,12 +33,17 @@
 }
 
 ::ng-deep .mat-button {
-    background-color: #f0fdff;  /* Custom background color */
-    color: #78b3ce;                /* Custom text color */
-    border: none;               /* Remove border */
-  }
-  
-  ::ng-deep .mat-button:hover {
-    background-color: #f0fdff;  /* Custom background color on hover */
-    color: #3e6882;                /* Ensure text color stays white */
-  }
+    background-color: #f0fdff;
+    /* Custom background color */
+    color: #78b3ce;
+    /* Custom text color */
+    border: none;
+    /* Remove border */
+}
+
+::ng-deep .mat-button:hover {
+    background-color: #f0fdff;
+    /* Custom background color on hover */
+    color: #3e6882;
+    /* Ensure text color stays white */
+}
