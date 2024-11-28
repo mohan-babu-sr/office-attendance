@@ -25,7 +25,7 @@ export class DashboardComponent implements OnInit {
   }
   currentMonthYear = '';
   listOfDays: any;
-  catelogList = ['places'];
+  catelogList = ['Places'];
   catelogs: any = {};
 
 
