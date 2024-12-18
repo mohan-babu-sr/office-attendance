@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import * as moment from 'moment';
 import { DbCallService } from '../core/db-call.service';
+import { CommonService } from '../core/common.service';
 
 @Component({
   selector: 'app-common-popup',
@@ -12,12 +13,14 @@ import { DbCallService } from '../core/db-call.service';
 export class CommonPopupComponent implements OnInit {
   form: FormGroup;
   haveDuplicates: boolean = false;
+  dateExists: boolean = false;
 
   constructor(
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<CommonPopupComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private dbCallService: DbCallService
+    private dbCallService: DbCallService,
+    private commonService: CommonService
   ) {
     this.form = this.fb.group({});
   }
@@ -35,14 +38,14 @@ export class CommonPopupComponent implements OnInit {
     });
 
     this.form.valueChanges.subscribe(value => {
-      
-      // value.MonthYear = this.getCurrentMonthYear(value.Date);
-      // value.isFilter = true;
-      // value.Date = moment(new Date(value.Date)).utc().format('YYYY-MM-DDTHH:mm:ss[Z]');
-      // console.log(value);
-      // this.dbCallService.getData(value).subscribe((data) => {
-      //   if (data.length > 0) { this.haveDuplicates = true; }
-      // })
+      if (this.commonService.getValue('dateExists').includes(moment(value.Date).format('D MMMM YYYY'))) {
+        this.dateExists = true;
+        this.form.controls['Date'].setErrors({ dateExists: true });
+        this.form.controls['Date'].markAsTouched();
+
+      } else {
+        this.dateExists = false;
+      }
     })
 
   }
@@ -56,13 +59,27 @@ export class CommonPopupComponent implements OnInit {
   saveDetails(): void {
     if (this.form.valid) {
       let formObj = this.form.value;
+
+
       if (formObj.Date) {
         formObj.MonthYear = this.getCurrentMonthYear(formObj.Date);
         formObj.Date = moment(new Date(formObj.Date)).utc().format('YYYY-MM-DDTHH:mm:ss[Z]');
+        // Pass the form data back to the parent component
+        this.dialogRef.close(formObj);
       }
-      this.dialogRef.close(formObj); // Pass form data back to the parent component
     }
   }
+
+  // saveDetails(): void {
+  //   if (this.form.valid) {
+  //     let formObj = this.form.value;
+  //     if (formObj.Date) {
+  //       formObj.MonthYear = this.getCurrentMonthYear(formObj.Date);
+  //       formObj.Date = moment(new Date(formObj.Date)).utc().format('YYYY-MM-DDTHH:mm:ss[Z]');
+  //     }
+  //     this.dialogRef.close(formObj); // Pass form data back to the parent component
+  //   }
+  // }
 
   getCurrentMonthYear(date: Date) {
     const currentMonthYear: string = date.toLocaleString('default', { year: 'numeric', month: 'long' });
@@ -71,7 +88,7 @@ export class CommonPopupComponent implements OnInit {
 
   onFormChange() {
     if (this.form) {
-      console.log(this.form);
+      // console.log(this.form);
     }
   }
 }

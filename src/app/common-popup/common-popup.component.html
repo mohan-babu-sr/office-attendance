@@ -29,9 +29,10 @@
         </ng-container>
 
         <!-- Validation Errors -->
-        <mat-error *ngIf="form.get(field.name)?.hasError('required')">
-          {{ field.name }} is required
-        </mat-error>
+        <mat-error *ngIf="form.get(field.name)?.hasError('required') || dateExists">
+          {{ dateExists ? 'Date already present!' : (field.name + ' is required') }}
+        </mat-error>          
+        
       </mat-form-field>
     </div>
   </form>

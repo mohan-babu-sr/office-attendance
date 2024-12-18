@@ -43,7 +43,8 @@ body {
   --button-warn-color: #FF5722;
   --button-warn-hover-color: #fbeae8;
   --button-primary-color: #78B3CE;
-  mat-card,
+  --popup-background-color: #E6F2F5;
+  mat-card,mat-dialog-content,mat-dialog-actions,
   td,
   th {
     background-color: #E6F2F5 !important;
@@ -56,12 +57,14 @@ body {
   --text-color: #ffffffd2;
   --button-hover-accent-color: #1a2125;
   --button-warn-hover-color: #4a2321;
-  mat-card,
+  --popup-background-color: #32444C;
+  mat-card,mat-dialog-content,mat-dialog-actions,mat-option,
   td,
   th {
     background-color: #32444C !important;
     color: var(--text-color) !important;
   }
+
 }
 
 .mat-toolbar {
@@ -87,4 +90,9 @@ a {
   color: var(--text-color);
   padding: 0 5px;
   /* Removes default color and makes it inherit from parent */
+}
+
+.mat-calendar, .mat-calendar-body-cell-content {
+  background-color: var(--popup-background-color) !important;
+  color: var(--text-color) !important;
 }

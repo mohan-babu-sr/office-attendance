@@ -22,7 +22,6 @@ export class CommonTableComponent implements OnInit{
   ngOnInit(): void {
     if (window.innerWidth <= 768) {
       this.isMobileView = true;
-      console.log(this.isMobileView);
     }
   }
 

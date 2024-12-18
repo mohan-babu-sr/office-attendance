@@ -4,6 +4,7 @@ import { DbCallService } from '../core/db-call.service';
 import { CommonPopupComponent } from '../common-popup/common-popup.component';
 import * as moment from 'moment';
 import { CommonWarningComponent } from '../common-warning/common-warning.component';
+import { CommonService } from '../core/common.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -27,9 +28,10 @@ export class DashboardComponent implements OnInit {
   listOfDays: any;
   catelogList = ['Places'];
   catelogs: any = {};
+  dateExists: any = [];
 
 
-  constructor(private dialog: MatDialog, private dbCallService: DbCallService) { }
+  constructor(private dialog: MatDialog, private dbCallService: DbCallService, private commonService: CommonService) { }
 
   ngOnInit(): void {
     const currentDate = new Date();
@@ -52,6 +54,7 @@ export class DashboardComponent implements OnInit {
     this.dbCallService.getData(this.listParams).subscribe((response) => {
       if (response && Array.isArray(response)) {
         this.listOfDays = response.map((element: any) => {
+          this.dateExists.push(moment(element.Date).format('D MMMM YYYY'));
           return {
             ...element,
             Date: moment(element.Date).format('D MMMM YYYY (dddd)'), // Format the Date field
@@ -59,6 +62,7 @@ export class DashboardComponent implements OnInit {
         });
       }
     });
+    this.commonService.setValue('dateExists', this.dateExists);
   }
 
   getTotalWorkingDays(month: number, year: number) {
